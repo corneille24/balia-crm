@@ -1,0 +1,24 @@
+/* eslint-disable no-console */
+import { proposalProfitability } from '@/lib/proposal-profit';
+import { initialState } from '@/store';
+let passed = 0, failed = 0;
+const check = (n: string, c: boolean) => { if (c) { passed++; console.log(`  \u2713 ${n}`); } else { failed++; console.error(`  \u2717 ${n}`); } };
+const telcar = initialState.proposals.find((p: any) => p.id === 'PRP-EX1')!;
+const opp = initialState.opportunities.find((o: any) => o.id === telcar.opportunityId);
+const f = proposalProfitability(telcar as any, opp as any);
+console.log('Telcar proposal:', JSON.stringify({ net: f.netRevenue, cost: f.cost, gp: f.grossProfit, margin: Math.round(f.marginPct*100)+'%', win: f.winProbability, expRev: Math.round(f.expectedRevenue), avgDay: Math.round(f.avgDailyRevenue) }));
+check('revenue = 12,000,000', f.revenue === 12000000);
+check('cost known (4,200,000)', f.costKnown && f.cost === 4200000);
+check('gross profit = 7,800,000', f.grossProfit === 7800000);
+check('margin = 65%', Math.round(f.marginPct*100) === 65);
+check('accepted -> win prob 100 (from opp)', f.winProbability === 100);
+check('expected revenue = net (100% win)', Math.round(f.expectedRevenue) === 12000000);
+check('avg daily revenue = 300,000 (40 days)', Math.round(f.avgDailyRevenue) === 300000);
+const agl = initialState.proposals.find((p: any) => p.id === 'PRP-EX2')!;
+const f2 = proposalProfitability(agl as any, initialState.opportunities.find((o:any)=>o.id===agl.opportunityId) as any);
+check('AGL sent proposal has win prob from opp (60)', f2.winProbability === 60);
+check('AGL expected revenue < net (60% win)', f2.expectedRevenue < f2.netRevenue && f2.expectedRevenue > 0);
+const noCost = proposalProfitability({ ...telcar, estimatedCost: undefined } as any, null);
+check('no cost -> costKnown false', noCost.costKnown === false);
+console.log(`\n${failed === 0 ? 'ALL PASSED' : 'FAILURES'} — ${passed} passed, ${failed} failed\n`);
+if (failed > 0) process.exit(1);
