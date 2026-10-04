@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 30% 97%;
+    --foreground: 222 45% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 45% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 45% 11%;
+    --primary: 219 62% 17%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 219 24% 94%;
+    --secondary-foreground: 222 40% 15%;
+    --muted: 219 20% 94%;
+    --muted-foreground: 219 12% 40%;
+    --accent: 219 40% 92%;
+    --accent-foreground: 219 55% 20%;
+    --destructive: 4 62% 44%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 219 20% 87%;
+    --input: 219 20% 84%;
+    --ring: 219 55% 32%;
+    --radius: 0.375rem;
+
+    --rail: 222 47% 9%;
+    --rail-foreground: 219 24% 88%;
+    --rail-muted: 219 12% 58%;
+    --rail-border: 220 30% 18%;
+
+    /* --forest is the internal name for the BALIA primary brand hue (now deep navy) */
+    --forest: 219 62% 17%;
+    --forest-soft: 219 40% 92%;
+    --gold: 41 58% 42%;
+    --gold-soft: 42 60% 91%;
+    --success: 152 45% 30%;
+    --success-soft: 152 38% 91%;
+    --warning: 34 68% 40%;
+    --warning-soft: 38 72% 91%;
+    --danger: 4 62% 44%;
+    --danger-soft: 6 62% 94%;
+    --info: 205 55% 38%;
+    --info-soft: 205 55% 93%;
+
+    --viz-1: 219 62% 24%;
+    --viz-2: 41 58% 47%;
+    --viz-3: 205 45% 46%;
+    --viz-4: 12 52% 52%;
+    --viz-5: 222 16% 46%;
+    --viz-6: 200 42% 58%;
+    --viz-7: 38 34% 52%;
+    --viz-8: 220 12% 60%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Poppins', 'IBM Plex Sans', sans-serif;
+    letter-spacing: -0.018em;
+  }
+  table, .tnum, input[type='number'] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+  ::selection { background: hsl(219 50% 84%); color: hsl(219 62% 16%); }
+  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; border-radius: 3px; }
+  * { scrollbar-width: thin; scrollbar-color: hsl(219 14% 78%) transparent; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(219 14% 80%); border-radius: 99px;
+    border: 2px solid transparent; background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(219 12% 66%); background-clip: content-box; }
+  .rail-scope { scrollbar-color: hsl(220 20% 26%) transparent; }
+  .rail-scope ::-webkit-scrollbar-thumb { background: hsl(220 20% 26%); background-clip: content-box; }
+  a { text-underline-offset: 3px; text-decoration-thickness: 1px; }
+}
+
+@layer components {
+  .prose-editorial {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.95rem; line-height: 1.7; max-width: 68ch; color: hsl(219 14% 26%);
+  }
+  .prose-editorial p + p { margin-top: 0.85em; }
+  .prose-editorial strong { color: hsl(222 45% 12%); font-weight: 600; }
+  .panel {
+    @apply rounded-lg border border-border bg-card;
+    box-shadow: 0 1px 2px -1px hsl(222 30% 20% / 0.09), 0 2px 8px -4px hsl(222 30% 20% / 0.07);
+  }
+  .panel-flat { @apply rounded-lg border border-border bg-card; }
+  .lift {
+    transition: box-shadow 180ms cubic-bezier(0.16,1,0.3,1), transform 180ms cubic-bezier(0.16,1,0.3,1), border-color 180ms ease;
+  }
+  .lift:hover {
+    box-shadow: 0 2px 4px -2px hsl(222 30% 20% / 0.12), 0 8px 20px -8px hsl(222 30% 20% / 0.16);
+    border-color: hsl(219 18% 78%);
+  }
+  .enter-up { animation: enter-up 300ms cubic-bezier(0.16,1,0.3,1) both; }
+  @keyframes enter-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .enter-up { animation: none; } .lift { transition: none; }
+  }
+}
