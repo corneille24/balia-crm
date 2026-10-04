@@ -1,0 +1,19 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Serve static library files directly (must come BEFORE the SPA fallback,
+# otherwise /* rewrites the file requests to index.html).
+[[redirects]]
+  from = "/library/*"
+  to = "/library/:splat"
+  status = 200
+
+# SPA fallback — client-side routing needs every path to resolve to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
