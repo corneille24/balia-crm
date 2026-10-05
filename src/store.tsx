@@ -847,11 +847,11 @@ function persist(state: AppState) {
   }
 }
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
+export function AppProvider({ children, initialModule = 'dashboard' }: { children: React.ReactNode; initialModule?: string }) {
   const [state, dispatch] = useReducer(reducer, undefined, loadPersisted);
   useEffect(() => { persist(state); }, [state]);
   const [role, setRole] = useState('super_admin');
-  const [module, setModuleRaw] = useState('dashboard');
+  const [module, setModuleRaw] = useState(initialModule);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [toasts, setToasts] = useState<{ id: string; msg: string; tone: string }[]>([]);
   const [portalCompanyId, setPortalCompanyId] = useState('CMP-01');
